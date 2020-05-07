@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Photography</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <style>
+            table{ 
+            border-collapse:separate; 
+            border-spacing: 20px 0; 
+            column-gap: 35px;
+            } 
+            th,td{ 
+            width: 120px; 
+            text-align: center; 
+            padding: 5px;
+            }
+          </style>
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	        </button>
+        </div>
+	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+	  			<div class="user-logo">
+	  				<div class="img" style="background-image: url(images/logo.jpg);"></div>
+	  				<h3><b><%=name%></b></h3>
+	  			</div>
+	  		</div>
+        <ul class="list-unstyled components mb-5">
+          <li>
+            <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+          </li>
+          <li class="active">
+            <a href="#"><span class="fa fa-book mr-3"></span> Submissions</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+          </li>
+          <li>
+            <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+          </li>
+        </ul>
+
+      </nav>
+
+      <div id="content" class="p-4 p-md-5">
+
+        <div id="content" class="p-4 p-md-5">
+            <div class="card-header">
+                <table>
+                    <tr>
+                       <th>Course</th><th>Assignment</th><th>Grade</th><th>XP's</th><th>Total XPs</th>
+                    </tr>
+                </table>
+              </div> 
+          <div class="card">
+              
+              <div class="card-body" >
+                  <table>
+                <%results1.forEach(function(result1){%>
+                  <%var flag=0%>
+                  <%var sum=0%>
+                        <%results2.forEach(function(result2){%>
+                          <%sum=sum+result2.XPs%>
+                          <% if(result2.course_id == result1.course_id && flag==0){%>
+                            <tr>
+                            <td><%= result2.course_name %></td>
+                            <td><%= result2.assignment_name %></td>
+                            <td><%= result2.grade %></td>
+                            <td><%= result2.XPs %></td>
+                            <% if(sum==result1.total){%>
+                              <td><%= result1.total %></td>
+                            <%}%>
+                            </tr>
+                            <% flag=1%>
+                            <%}else if(result2.course_id == result1.course_id && flag==1){%>
+                                <tr>
+                                  <td></td>
+                                  <td><%= result2.assignment_name %></td>
+                                  <td><%= result2.grade %></td>
+                                  <td><%= result2.XPs %></td>
+                                  <% if(sum==result1.total){%>
+                                    <td><%= result1.total %></td>
+                                    <%if(result1.total/70>=0.75){%>
+                          
+                                      <td><form action="/progress" method="POST" >
+
+                                          <input type = "hidden" name = "course_name" value = "<%=result2.course_name %>" />
+                                          <input type = "hidden" name = "date" value = "<%=result2.date %>" />
+              
+                                          <button type="submit" class="btn btn-info">View Certificate</button>
+                                        </form></td><%}%>
+                                  <%}%>
+                                </tr>
+                                 
+                      
+                          <%}%>
+                           
+                        
+                      </tr>    
+                      <%})%>
+                     
+                     <div>
+                  </table>
+            </div> <br> <br>
+            <% }) %>
+
+      </div>
+
+
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

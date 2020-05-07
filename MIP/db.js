@@ -266,9 +266,10 @@ app.get('/mycourses',(req,res)=>{
                if(req.session.username == results[i].course_teacher){
                   resolve();
                   break;
-            }
+               }
             }
             reject();
+            
          });
       });
       course.then(
@@ -489,10 +490,7 @@ app.get('/foreign',(request, response) =>{
          }
          response.render('photography',{name:request.session.username,results:list});
 
-      })
-      
-      
-      
+      })      
    }  
 });
 
@@ -617,13 +615,82 @@ app.get('/submissions',(req,res)=>{
          db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?)",course_id,(err,results1,fields)=>{
             console.log(results1);
             console.log(typeof(results1));
-            res.render('tea_assignments',{name:req.session.username,results:results1});
+            db.query("select assignment_name,grade from assignment_grading where course_id = ?",course_id,(err,results2,fields)=>{
+
+            res.render('tea_assignments',{name:req.session.username,results:results1,results2:results2});
          });
       });
-
-      
+   });
    }
 });
+
+
+//assignment grading
+app.post('/submissions',(req,res)=>{
+   var grade = req.body.grade;
+   var assignment_name = req.body.assignment_name;
+   var stu_id=req.body.stu_id;
+   var XPs;
+   var datetime = new Date().toISOString().slice(0,10);
+    console.log(datetime);
+   if(grade=="A+") XPs=35;
+   if(grade=="A") XPs=32;
+   if(grade=="A-") XPs=30;
+   if(grade=="B+") XPs=27;
+   if(grade=="B") XPs=25;
+   if(grade=="B-") XPs=22;
+   if(grade=="C+") XPs=20;
+   if(grade=="C") XPs=17;
+   if(grade=="C-") XPs=15;
+   if(grade=="D") XPs=12;
+   if(grade=="F") XPs=0;
+   db.query("Select course_id from courses where course_teacher = ?",req.session.username,(err,results,fields)=>{
+      var course_id = results[0].course_id;
+   var grading_data = {
+      "course_id":course_id,
+      "assignment_name" : assignment_name,
+      "stu_id" : stu_id,
+      "grade" : grade,
+      "XPs" : XPs,
+      "date": datetime
+   };
+   console.log(grading_data);
+   db.query("INSERT into assignment_grading SET ?",grading_data,(err,results,fields)=>{
+      if (err) throw err;
+   });
+ });
+ res.redirect('/submissions');
+});
+
+//Progress
+app.get('/progress',(req,res)=>{
+   if(req.session.stu_login){
+      db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
+         var stu_id = results[0].id;
+         console.log(stu_id);
+         db.query("Select distinct course_id,sum(XPs) as total from assignment_grading where stu_id = ? group by course_id order by course_id",stu_id,(err,results1,fields)=>{
+            console.log(results1);
+         db.query("select course_name, G.course_id, DATE_FORMAT(date,'%M %D, %Y') as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ",stu_id,(err,results2,fields)=>{
+            console.log(results2);
+            console.log(typeof(results2));
+            res.render('progress',{name:req.session.username,results1:results1, results2:results2});
+         });
+      });
+   });
+}
+});
+
+app.post('/progress', (req,res)=>{
+   
+   var certificate_data = {
+      "course_name":req.body.course_name,
+      "stu_name":req.session.username,
+      "date":req.body.date
+   };
+   
+   res.render('certificate',{result:certificate_data});
+});
+
 
 app.listen(3000);
    

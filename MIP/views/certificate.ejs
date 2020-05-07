@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+    .container{
+        margin-top: 50px;
+        margin-left: 300px;
+        position:relative;
+        text-align:center;
+    }
+    
+    .centered {
+        position: relative;
+        width:700px;
+        height:500px;
+        border: 1px solid #000;
+        font-size: 30;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        background-image: url("../public/images/templateC.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+    .centered h1{
+        font-size: 45;
+        font-weight: 40;
+        padding-top:80px;
+        padding-bottom: 30px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
+    .centered p{
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 20;
+        line-height: 40px;
+        font-weight: 20;
+    }
+    .block1{
+        float: left;
+        padding-top:40px ;
+        padding-left: 40px;
+        font-size: small;}
+    .block2{
+        float: right;
+        padding-top:40px ;
+        padding-right: 50px;
+        font-size: small;
+        color: navy;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        letter-spacing: 0.5em;
+        }
+        </style>
+</head>
+<body>
+    <div class="container">
+         <div class="centered">
+            <h1>Certificate of Completion</h1>
+            <p>This certificate is awarded to        </br>
+            <span><u><b><%= result.stu_name %></u></b></span></span><br>
+            For successfully completing the course</br>
+            <span><u><b><%= result.course_name %></u></b></span></span><br>
+            </p>
+            <div class="block1">
+                <span>Completed on<br><%= result.date %></span>
+            </div>
+            <div class="block2">
+                <span>SKILLGRADER.</span>
+            </div>
+        </div>
+        </div>  
+</body>
+</html>

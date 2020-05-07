@@ -75,13 +75,26 @@
                   <%}%> 
                  <!-- <p class="card-text">Due Date:<%=result.due_date%></p>
                   <br>
-                  <h4>Submission:</h4>
-                  <form action="/assignment" method="POST" enctype="multipart/form-data">
-                    <input class="form-control" type="file" name="submission_file" accept=""/><br>
-                    <input type = "hidden" name = "assignment_id" value = "<%=result.assignment_id %>" />
-                    <button class="btn btn-primary">Submit</button>
-                  </form>-->
+                  <h4>Submission:</h4>-->
+                  <%var flag=0%>
+                  <%results2.forEach(function(result2){%>
+
+                  <% if(result2.assignment_name == result.assignment_name){%>
+                    <br>Graded: <%= result2.grade %>
+                    <%flag=1%>
                   
+
+                  <%}%>
+                  <% })%>
+                  <% if(flag==0){%>
+                    <form action="/submissions" method="POST" >
+                      <input type = "hidden" name = "assignment_name" value = "<%=result.assignment_name %>" />
+                      <input type = "hidden" name = "stu_id" value = "<%=result.stu_id %>" />
+  
+                      <input type = "text" name = "grade" placeholder="Pending"/>
+                      <button type="submit" class="btn btn-info">Grade</button>
+                    </form>
+                    <%}%>
               </div>
             </div> <br> <br>
             <% })%>
