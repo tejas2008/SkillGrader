@@ -571,8 +571,30 @@ app.get('/assignment',(req,res)=>{
       db.query('select id from login_student where username = ?',req.session.username,(err,results,fields)=>{
       var studentid = results[0].id;
       db.query('select distinct assignments.assignment_id,assignments.assignment_name,assignments.assignment_desc,assignments.due_date,assignments.assignment_type from assignments inner join my_subscribed_courses on assignments.course_id = my_subscribed_courses.my_course_id where my_subscribed_courses.my_course_id in (select distinct my_course_id from my_subscribed_courses where my_id = ?)',studentid,(err,results1,fields)=>{
-         if (err) throw err;
-         res.render('stu_assignments',{name:req.session.username,results:results1});
+         console.log(results1);
+         var results3 = [];
+         db.query('select assignment_id from student_submission where stu_id = ?', studentid,(err,results2,feilds)=>{
+            console.log(results2[0].assignment_id);
+            
+            
+            for(var i=0; i<results1.length; i++)
+            {  var flag=0
+               for(var j=0;j<results2.length; j++)
+               {
+                  if(results1[i].assignment_id == results2[j].assignment_id)
+                     {
+                        flag=1;
+                     }
+               }
+               console.log(flag);
+               if(flag == 0)
+                  results3.push(results1[i]);
+
+            }
+            console.log(results3);
+            res.render('stu_assignments',{name:req.session.username,results:results3});
+         });
+         
       });
    });
 });
