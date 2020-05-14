@@ -275,14 +275,60 @@ app.get('/mycourses',(req,res)=>{
       course.then(
          ()=>{
             console.log("resolve");
-            res.render('mycourse',{name:req.session.username});
+            db.query('select * from courses where course_teacher=? ',req.session.username,(err,results1,fields)=>{
+               var course_id=results1[0].course_id
+ 
+               db.query('select count(*) as C from testing.assignments as A join testing.courses as C where A.course_id=C.course_id and course_teacher=?',req.session.username,(err,results2,fields)=>{
+                  var ass_count=results2[0].C;
+               
+               db.query('select count(*) as C from testing.my_subscribed_courses where my_course_id=?',course_id,(err,results3,fields)=>{
+                  var stu_count=results3[0].C;
+               
+               db.query("select assignment_id, assignment_name, DATE_FORMAT(due_date,'%M %D, %Y') as date from testing.assignments where course_id=?",course_id,(err,results4,fields)=>{
+ 
+            
+            res.render('mycourse',{name:req.session.username,countA:ass_count,countS:stu_count,result1:results1,result2:results4});
+             
+            });
+         });
+            });
+         });
+         
+         app.post('/mycourses',(req,res)=>{
+               var id=req.body.assignment_id
+               db.query("DELETE FROM assignments where assignment_id = ?",id,(err,results1,fields)=>{
+                  if(err) throw err;
+                  res.redirect('\mycourses');
+               });
+         });
          },
          ()=>{
             console.log("reject");
             res.render('courses',{name:req.session.username});
+ 
+            //add course 
+            app.post('/mycourses',(req,res)=>{
+               //const add_course = document.getElementById('add-course')
+               //add_course.addEventListener('click',(req,res)=>{
+                  var name = req.body.course_name;
+                  var info = req.body.course_info;
+                  var domain = req.body.course_domain;
+                  var course_data = {
+                     "course_name":name,
+                     "course_info":info,
+                     "course_teacher":req.session.username,
+                     "domain":domain
+                  }
+                  db.query('insert into courses set ?',course_data,(err,results,fields)=>{
+                     if(err) throw err; 
+                     res.redirect('\mycourses');  
+                  });
+               
+            });
          }
       )
    }
+
    else{
       res.send("404 NOT FOUND");
    }
@@ -290,25 +336,7 @@ app.get('/mycourses',(req,res)=>{
    
 
 });
-//add course 
-app.post('/mycourses',(req,res)=>{
-   //const add_course = document.getElementById('add-course')
-   //add_course.addEventListener('click',(req,res)=>{
-      var name = req.body.course_name;
-      var info = req.body.course_info;
-      var domain = req.body.course_domain;
-      var course_data = {
-         "course_name":name,
-         "course_info":info,
-         "course_teacher":req.session.username,
-         "domain":domain
-      }
-      db.query('insert into courses set ?',course_data,(err,results,fields)=>{
-         if(err) throw err; 
-         res.redirect('\mycourses');  
-      });
-   
-});
+
 
 
 
@@ -574,9 +602,7 @@ app.get('/assignment',(req,res)=>{
          console.log(results1);
          var results3 = [];
          db.query('select assignment_id from student_submission where stu_id = ?', studentid,(err,results2,feilds)=>{
-            console.log(results2[0].assignment_id);
-            
-            
+            if(results2.length>0){
             for(var i=0; i<results1.length; i++)
             {  var flag=0
                for(var j=0;j<results2.length; j++)
@@ -593,6 +619,10 @@ app.get('/assignment',(req,res)=>{
             }
             console.log(results3);
             res.render('stu_assignments',{name:req.session.username,results:results3});
+         }
+         else
+         res.render('stu_assignments',{name:req.session.username,results:results1});
+
          });
          
       });
@@ -635,11 +665,29 @@ app.get('/submissions',(req,res)=>{
          var course_id = results[0].course_id;
          console.log(course_id);
          db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?)",course_id,(err,results1,fields)=>{
-            console.log(results1);
-            console.log(typeof(results1));
-            db.query("select assignment_name,grade from assignment_grading where course_id = ?",course_id,(err,results2,fields)=>{
+            var results3=[];
+            db.query("select assignment_name,grade,stu_id from assignment_grading where course_id = ?",course_id,(err,results2,fields)=>{
+               if(results2.length>0){
+               for(var i=0; i<results1.length; i++)
+            {  var flag=0
+               for(var j=0;j<results2.length; j++)
+               {
+                  if(results1[i].assignment_name == results2[j].assignment_name && results1[i].stu_id == results2[j].stu_id)
+                     {
+                        flag=1;
+                     }
+               }
+               console.log(flag);
+               if(flag == 0)
+                  results3.push(results1[i]);
 
-            res.render('tea_assignments',{name:req.session.username,results:results1,results2:results2});
+            }
+            console.log(results3);
+            res.render('tea_assignments',{name:req.session.username,results:results3});
+         }
+         else
+         res.render('tea_assignments',{name:req.session.username,results:results1});
+
          });
       });
    });
@@ -690,9 +738,9 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
-         db.query("Select distinct course_id,sum(XPs) as total from assignment_grading where stu_id = ? group by course_id order by course_id",stu_id,(err,results1,fields)=>{
+         db.query( 'Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
-         db.query("select course_name, G.course_id, DATE_FORMAT(date,'%M %D, %Y') as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ",stu_id,(err,results2,fields)=>{
+         db.query('select CONCAT("id",G.course_id) as course_id, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
             console.log(results2);
             console.log(typeof(results2));
             res.render('progress',{name:req.session.username,results1:results1, results2:results2});

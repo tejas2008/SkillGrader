@@ -15,33 +15,33 @@
   <body>
 		
 		<div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
-				<div class="custom-menu">
-					<button type="button" id="sidebarCollapse" class="btn btn-primary">
-	        </button>
+      <nav id="sidebar">
+        <div class="custom-menu">
+          <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          </button>
         </div>
-	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
-	  			<div class="user-logo">
-	  				<div class="img" style="background-image: url(images/logo.jpg);"></div>
-	  				<h3><b><%=name%></b></h3>
-	  			</div>
-	  		</div>
+        <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+          <div class="user-logo">
+            <div class="img" style="background-image: url(images/logo.jpg);"></div>
+            <h3><%=name%></h3>
+          </div>
+        </div>
         <ul class="list-unstyled components mb-5">
           <li>
-            <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+            <a href="/mycourses"><span class="fa fa-home mr-3"></span> Home</a>
           </li>
           <li class="active">
-            <a href="#"><span class="fa fa-book mr-3"></span> Courses</a>
+            <a href="/upload"><span class="fa fa-upload mr-3"></span> Upload </a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+            <a href="/submissions"><span class="fa fa-pencil mr-3"></span> Grade </a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+            <a href="/"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
         </ul>
-
-    	</nav>
+ 
+      </nav>
        
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5 pt-5">

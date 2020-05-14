@@ -14,33 +14,33 @@
   </head>
   <body>
 		
-		<div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
-				<div class="custom-menu">
-					<button type="button" id="sidebarCollapse" class="btn btn-primary">
-	        </button>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar">
+        <div class="custom-menu">
+          <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          </button>
         </div>
-	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
-	  			<div class="user-logo">
-	  				<div class="img" style="background-image: url(images/logo.jpg);"></div>
-	  				<h3><b><%=name%></b></h3>
-	  			</div>
-	  		</div>
+        <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+          <div class="user-logo">
+            <div class="img" style="background-image: url(images/logo.jpg);"></div>
+            <h3><%=name%></h3>
+          </div>
+        </div>
         <ul class="list-unstyled components mb-5">
           <li>
-            <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+            <a href="/mycourses"><span class="fa fa-home mr-3"></span> Home</a>
+          </li>
+          <li>
+            <a href="/upload"><span class="fa fa-upload mr-3"></span> Upload </a>
           </li>
           <li class="active">
-            <a href="#"><span class="fa fa-book mr-3"></span> Submissions</a>
+            <a href="/submissions"><span class="fa fa-pencil mr-3"></span> Grade </a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+            <a href="/"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
         </ul>
-
+ 
       </nav>
 
       <div id="content" class="p-4 p-md-5">
@@ -76,17 +76,7 @@
                  <!-- <p class="card-text">Due Date:<%=result.due_date%></p>
                   <br>
                   <h4>Submission:</h4>-->
-                  <%var flag=0%>
-                  <%results2.forEach(function(result2){%>
-
-                  <% if(result2.assignment_name == result.assignment_name){%>
-                    <br>Graded: <%= result2.grade %>
-                    <%flag=1%>
                   
-
-                  <%}%>
-                  <% })%>
-                  <% if(flag==0){%>
                     <form action="/submissions" method="POST" >
                       <input type = "hidden" name = "assignment_name" value = "<%=result.assignment_name %>" />
                       <input type = "hidden" name = "stu_id" value = "<%=result.stu_id %>" />
@@ -94,7 +84,7 @@
                       <input type = "text" name = "grade" placeholder="Pending"/>
                       <button type="submit" class="btn btn-info">Grade</button>
                     </form>
-                    <%}%>
+                   
               </div>
             </div> <br> <br>
             <% })%>
