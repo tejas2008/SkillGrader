@@ -7,9 +7,9 @@ Educational Apps nowadays have certified courses but it is not a proof whether t
 
 
 ## Built With
-*[Node.js]
-*[Bootstrap]
-*[Ejs]
-*[Mysql]
+* [Node.js]
+* [Bootstrap]
+* [Ejs]
+* [Mysql]
 
 
