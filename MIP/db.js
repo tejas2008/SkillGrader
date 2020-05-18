@@ -602,6 +602,11 @@ app.get('/assignment',(req,res)=>{
          console.log(results1);
          var results3 = [];
          db.query('select assignment_id from student_submission where stu_id = ?', studentid,(err,results2,feilds)=>{
+            console.log(results2);
+            if(!results2){
+               res.render('stu_assignments',{name:req.session.username,results:results1});
+            }
+            else{
             if(results2.length>0){
             for(var i=0; i<results1.length; i++)
             {  var flag=0
@@ -622,9 +627,9 @@ app.get('/assignment',(req,res)=>{
          }
          else
          res.render('stu_assignments',{name:req.session.username,results:results1});
-
+      }
          });
-         
+      
       });
    });
 });
@@ -667,6 +672,11 @@ app.get('/submissions',(req,res)=>{
          db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?)",course_id,(err,results1,fields)=>{
             var results3=[];
             db.query("select assignment_name,grade,stu_id from assignment_grading where course_id = ?",course_id,(err,results2,fields)=>{
+               if(!results2){
+                  res.render('tea_assignments',{name:req.session.username,results:results1});
+
+               }
+               else{
                if(results2.length>0){
                for(var i=0; i<results1.length; i++)
             {  var flag=0
@@ -687,7 +697,7 @@ app.get('/submissions',(req,res)=>{
          }
          else
          res.render('tea_assignments',{name:req.session.username,results:results1});
-
+      }
          });
       });
    });
@@ -740,7 +750,7 @@ app.get('/progress',(req,res)=>{
          console.log(stu_id);
          db.query( 'Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
-         db.query('select CONCAT("id",G.course_id) as course_id, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
+         db.query('select CONCAT("id",G.course_id) as course_id,course_name DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
             console.log(results2);
             console.log(typeof(results2));
             res.render('progress',{name:req.session.username,results1:results1, results2:results2});

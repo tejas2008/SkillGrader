@@ -1,0 +1,111 @@
+#include <stdio.h> 
+int main()
+{
+int a ;
+scanf ( "%d",&a ) ;
+float c = d + b ; 
+printf ( "The value of c is %d ",c ) ;
+return 0 ;
+}
+
+
+
+
+import java.util.*;
+public class Main {
+
+	public static int find(char[] A, char[] B) {
+		int[][] LCS = new int[A.length + 1][B.length + 1];
+		String[][] solution = new String[A.length + 1][B.length + 1];
+		// if A is null then LCS of A, B =0
+		for (int i = 0; i <= B.length; i++) {
+			LCS[0][i] = 0;
+			solution[0][i] = "0";
+		}
+
+		// if B is null then LCS of A, B =0
+		for (int i = 0; i <= A.length; i++) {
+			LCS[i][0] = 0;
+			solution[i][0] = "0";
+		}
+
+		for (int i = 1; i <= A.length; i++) {
+			for (int j = 1; j <= B.length; j++) {
+				if (A[i - 1] == B[j - 1]) {
+					LCS[i][j] = LCS[i - 1][j - 1] + 1;
+					solution[i][j] = "diagonal";
+				} else {
+					LCS[i][j] = Math.max(LCS[i - 1][j], LCS[i][j - 1]);
+					if (LCS[i][j] == LCS[i - 1][j]) {
+						solution[i][j] = "top";
+					} else {
+						solution[i][j] = "left";
+					}
+				}
+			}
+		}
+		// below code is to just print the result
+		String x = solution[A.length][B.length];
+		String answer = "";
+		int a = A.length;
+		int b = B.length;
+		while (x != "0") {
+			if (solution[a][b] == "diagonal") {
+				answer = A[a - 1] + answer;
+				a--;
+				b--;
+			} else if (solution[a][b] == "left") {
+				b--;
+			} else if (solution[a][b] == "top") {
+				a--;
+			}
+			x = solution[a][b];
+		}
+		System.out.println(answer);
+		
+		for (int i = 0; i <= A.length; i++) {
+			for (int j = 0; j <= B.length; j++) {
+				System.out.print(" " + LCS[i][j]);
+			}
+			System.out.println();
+		}
+		return LCS[A.length][B.length];
+	}
+
+	public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+		String A = " for i in range(10):  print(i)";
+		String B = " j=0  while j!=9: print(j) j+=1";
+    int a = find(A.toCharArray(), B.toCharArray());
+		System.out.println("LCS :" + a);
+    float ans;
+    System.out.println(A.length());
+    ans = (float)a/A.length();
+    System.out.println(ans*100);
+
+	}
+}
+
+
+https://sci-hub.tw/https://ieeexplore.ieee.org/document/6421180
+http://oaji.net/articles/2017/1948-1513933134.pdf
+https://www.tutorialspoint.com/design_and_analysis_of_algorithms/design_and_analysis_of_algorithms_longest_common_subsequence.htm
+https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-016-2793-0
+https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+https://algorithms.tutorialhorizon.com/dynamic-programming-longest-common-subsequence/
+https://www.researchgate.net/post/What_are_the_pros_and_cons_of_Longest_Common_Subsequence_using_as_similarity_function
+
+A drawback of this algorithm is that it does not handle flexible gaps, and only allow sole residue (a single alphabet) to occupy a single position.
+
+Plagiarism has become very common in
+educational institutions. Students copy without any
+hesitation other student’s assignments, both text and source
+code, to complete their work in time or to complete their
+work in a better way. Many students seldom care to put
+their time and effort into doing the assignments on their
+own when it is far simpler and effortless to copy from
+someone else. However, it is necessary to differentiate the
+original work from plagiarized work. 
+
+
+

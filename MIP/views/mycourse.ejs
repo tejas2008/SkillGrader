@@ -64,13 +64,13 @@
     
  
         <div class="card w-100 mb-5" style="margin: 50px;">
-          <h5 class="card-header"  ><b>My Course: <%=result1[0].course_name%> </b></h5>
+          <h5 class="card-header text-center"  ><b>My Course: <%=result1[0].course_name%> </b></h5>
  
           <div class="card-img-top d-flex align-items-center bg-light" >
-            <div>
+            <div style="padding-left: 100px;">
             <% if(result1[0].domain=="sketching"){%>
               <img src="..\public\images\s.png" class="img-fluid" alt="Card image cap" style="width:15rem; height:15rem; align-self: center; border-style: solid; margin:20px; ">
-              <%}else if(result1[0].domain=="photograpgy"){%>
+              <%}else if(result1[0].domain=="photography"){%>
                 <img src="..\public\images\p.png" class="img-fluid" alt="Card image cap" style="width:15rem; height:15rem; align-self: center; border-style: solid; margin:20px; ">
   
                 <%}else if(result1[0].domain=="film making"){%>
