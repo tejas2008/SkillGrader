@@ -78,18 +78,18 @@
       <div id="content" class="p-4 p-md-5">
 
         <div id="content" class="p-4 p-md-5">
-          <div class="card-header">PROGRESS REPORT</div>
-                
+          <div class="card-header text-center">PROGRESS REPORT</div>
+                <br>
            
-          <div class="card">
-              <div class="card-body" >
+          <!-- <div class="card">
+              <div class="card-body" > -->
                 <%results1.forEach(function(result1){%>
                   <%var flag=0%>
                   <%var sum=0%>
                         
                             <div id="accordion">
                               <div class="card">
-                                <div class="card-header" id="<%= result1.course_name %>">
+                                <div class="card-header text-center" id="<%= result1.course_name %>">
                                   <h5 class="mb-0">
                                     <button class="btn btn-link" data-toggle="collapse" data-target="#<%= result1.course_id %>" aria-expanded="true" aria-controls="<%= result1.course_id %>" style="font-size: medium;">
                                       <%= result1.course_name %>
@@ -111,7 +111,7 @@
                                     <td><%= result2.grade %></td>
                                     <td><%= result2.XPs %></td>
                                     <% if(sum==result1.total){%>
-                                      <td><%= result1.total %>/400</td>
+                                      <td><%= result1.total %></td>
                                       <%if(result1.total/40>=0.75){%>
                           
                                         <td><form action="/progress" method="POST" >
@@ -135,8 +135,8 @@
 
                      
                      
-                    </div>
-            </div> <br> 
+                    <!-- </div>
+            </div> <br>  -->
             <% }) %>
 
       </div>
