@@ -750,7 +750,7 @@ app.get('/progress',(req,res)=>{
          console.log(stu_id);
          db.query( 'Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
-         db.query('select CONCAT("id",G.course_id) as course_id,course_name DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
+         db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
             console.log(results2);
             console.log(typeof(results2));
             res.render('progress',{name:req.session.username,results1:results1, results2:results2});

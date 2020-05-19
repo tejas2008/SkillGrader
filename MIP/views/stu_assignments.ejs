@@ -10,12 +10,54 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+      body{
+        background: #2980B9;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      }
+      #content{
+        margin : 2%;
+        color: #32373d;
+      }
+      .card{
+        box-shadow: 5px 10px 8px #3870c9;
+      }
+      .card-header{
+        font-family: Candara;
+        font-size: 20px;
+        background-color:#32373d;
+        color: white;
+      }
+      .image{
+        margin-left: 3%;
+        float: left;
+      }
+      .submission{
+        padding-top: 30px;
+        margin-right: 15%;
+        float:right;
+        font-size: 20px;
+      }
+
+      .submission form button{
+        width: 37%;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 18px;
+      }
+      
+      
+    </style>
+
   </head>
   <body>
 		
     <div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
+			<nav id="sidebar" >
 				<div class="custom-menu">
 					<button type="button" id="sidebarCollapse" class="btn btn-primary">
 	        </button>
@@ -51,9 +93,10 @@
             <%results.forEach(function(result){%>
             <div class="card">
                 <div class="card-header">
-                  <%=result.assignment_name%>
+                  <b><%=result.assignment_name%></b>
                 </div> 
                 <div class="card-body" >
+                  <div class= "image">
                     <% if(result.assignment_type == 'video/mp4'){%>
                         <video width="250" height="250" controls>
                             <source src="../public/uploads/<%=result.assignment_desc%>" type="video/mp4">
@@ -70,15 +113,22 @@
                     <% if(result.assignment_type == 'text/plain'){%>
                         <iframe src="../public/uploads/<%=result.assignment_desc%>"></iframe>
                     <%}%>
-                    <p class="card-text">Due Date:<%=result.due_date%></p>
-                    <br>
-                    <h4>Submission:</h4>
+                    <br><br>
+                    </div>
+                    <div class = "submission">
+                    <p class="card-text"> <b>Due Date:</b> <%=result.due_date%></p>
+                    <hr>
+                      <b>Submission:</b>
+                      <br>
                     <form action="/assignment" method="POST" enctype="multipart/form-data">
-                      <input class="form-control" type="file" name="submission_file" accept=""/><br>
+                      <input class="form-control" type="file" name="submission_file" accept=""/>
+                      <hr>
                       <input type = "hidden" name = "assignment_id" value = "<%=result.assignment_id %>" />
                       <input type = "hidden" name = "assignment_name" value = "<%=result.assignment_name %>" />
-                      <button class="btn btn-primary">Submit</button>
+                      <button class="btn btn-primary btn-info btn-lg" >Submit</button>
                     </form>
+                    </div>
+                    
                     
                 </div>
               </div> <br> <br>
