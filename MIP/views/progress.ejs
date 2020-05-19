@@ -12,6 +12,12 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/style.css">
         <style>
+          body{
+        background: #2980B9;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      }
             table{ 
             border-collapse:separate; 
             border-spacing: 20px 0; 
@@ -21,6 +27,17 @@
             width: 150px; 
             text-align: center; 
             padding: 5px;
+            }
+            .card{
+              box-shadow: 5px 10px 8px #3870c9;
+              color :#32373d;
+            }
+            .card-header{
+              background-color: #32373d;
+              color: white;
+            }
+            .card-header button{
+              color: white;
             }
           </style>
   </head>
@@ -52,7 +69,7 @@
             <a href="/progress"><span class="fa fa-trophy mr-3"></span> Progress </a>
           </li>
           <li>
-            <a href="/"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+            <a href="/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
         </ul>
 
@@ -94,7 +111,7 @@
                                     <td><%= result2.grade %></td>
                                     <td><%= result2.XPs %></td>
                                     <% if(sum==result1.total){%>
-                                      <td><%= result1.total %></td>
+                                      <td><%= result1.total %>/400</td>
                                       <%if(result1.total/40>=0.75){%>
                           
                                         <td><form action="/progress" method="POST" >

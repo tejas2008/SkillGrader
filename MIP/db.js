@@ -232,23 +232,7 @@ console.log("wrong");
 
 
 app.get('/home',(req,res)=>{
-   console.log(req.session.stu_login);
-   console.log(req.session.tea_login);
-   if(req.session.tea_login){
-      res.send("welcome"+req.session.username);
-      res.sendFile(path.join(__dirname + '/index.html'));
-      //req.session.tea_login = false;
-   }
-   else if(req.session.stu_login){
-      console.log(req.session.id);
-      res.sendFile(path.join(__dirname + '/index.html'));
-      //req.session.stu_login = false;
-
-   }
-   else{
-      res.send("404 not found");
-   }
-   //req.session.destroy();
+   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 
@@ -748,9 +732,9 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
-         db.query( 'Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
+         db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
-         db.query('select CONCAT("id",G.course_id) as course_id,course_name DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
+         db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
             console.log(results2);
             console.log(typeof(results2));
             res.render('progress',{name:req.session.username,results1:results1, results2:results2});
@@ -772,7 +756,15 @@ app.post('/progress', (req,res)=>{
 });
 
 
-app.listen(3000);
+app.get('/logout',(req,res)=>{
+   req.session.destroy();
+   res.redirect('/home');
+})
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
    
 
 
