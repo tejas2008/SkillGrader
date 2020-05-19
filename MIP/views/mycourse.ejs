@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="css/style.css">
     
     <style>
+     
       table{ 
-  
       border-collapse:separate; 
       border-spacing: 10px ; 
       column-gap: 35px;
@@ -62,10 +62,11 @@
       
         <!-- Page Content -->
     
- 
-        <div class="card w-100 mb-5" style="margin: 50px;">
-          <h5 class="card-header text-center"  ><b>My Course: <%=result1[0].course_name%> </b></h5>
- 
+        <div id="content" class="p-4 p-md-5 pt-5">
+
+          <h1 class="btn btn-warning" style="width: 100%; font-size: xx-large;">My Course: <%=result1[0].course_name%>  </h1> 
+        <br><br> 
+        <div class="card border-primary mb-3 ">
           <div class="card-img-top d-flex align-items-center bg-light" >
             <div style="padding-left: 100px;">
             <% if(result1[0].domain=="sketching"){%>
@@ -83,30 +84,31 @@
                       <img src="..\public\images\l.png" class="img-fluid" alt="Card image cap" style="width:15rem; height:15rem; align-self: center; border-style: solid; margin:20px; ">
   <%}%>
             </div>
-              <p class="col p-2 m-0" ><br><b>About: <%=result1[0].course_info%> </b>
+            <div style="padding-left: 80px;">
+              <p class="col p-2 m-0" ><h6><br><b>About: <%=result1[0].course_info%> </b>
                 <br><br>
                 <b>Name</b>: <%=name%><br><br>
               <b>Domain</b>: <%=result1[0].domain%><br><br>
               <b>Subscribers</b>: <%=countS%><br><br>
-              <b>Assignments</b>: <%=countA%><br><br>
+              <b>Assignments</b>: <%=countA%><br><br></h6>
               </p>
-         
+            </div>
           </div>
-        
-        
+          </div>
+
         <div class="card-body">
           <div id="accordion">
-            <div class="card">
-              <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Assignments
+            <div class="card border-primary mb-3" >
+              <div class="card-header text-white" id="headingOne">
+                <h5 class="mb-0" style="text-align: center;">
+                  <button class="btn btn-link" style="font-size: 20px;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <b>Assignments</b>
                   </button>
                 </h5>
               </div>
           
               <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body">
+                <div class="card-body" style="font-size: 20px;">
                   <table>
     
                   <%result2.forEach(function(result2){%>
@@ -126,7 +128,8 @@
                       <%})%>
                     </table>                </div>
               </div>
-          
+            </div>
+
             
           
  
