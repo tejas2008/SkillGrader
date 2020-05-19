@@ -653,7 +653,7 @@ app.get('/submissions',(req,res)=>{
       db.query("Select course_id from courses where course_teacher = ?",req.session.username,(err,results,fields)=>{
          var course_id = results[0].course_id;
          console.log(course_id);
-         db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?) order by assignment_name",course_id,(err,results1,fields)=>{
+         db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?)",course_id,(err,results1,fields)=>{
             var results3=[];
             db.query("select assignment_name,grade,stu_id from assignment_grading where course_id = ?",course_id,(err,results2,fields)=>{
                if(!results2){
