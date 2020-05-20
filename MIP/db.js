@@ -653,7 +653,7 @@ app.get('/submissions',(req,res)=>{
       db.query("Select course_id from courses where course_teacher = ?",req.session.username,(err,results,fields)=>{
          var course_id = results[0].course_id;
          console.log(course_id);
-         db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?)",course_id,(err,results1,fields)=>{
+         db.query("select assignment_desc,assignment_name,assignment_type,stu_id,stu_name from student_submission where assignment_id = ANY(select assignment_id from assignments where course_id = ?) order by assignment_name",course_id,(err,results1,fields)=>{
             var results3=[];
             db.query("select assignment_name,grade,stu_id from assignment_grading where course_id = ?",course_id,(err,results2,fields)=>{
                if(!results2){
@@ -732,7 +732,7 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
-         db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
+         db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id, course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
          db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
             console.log(results2);

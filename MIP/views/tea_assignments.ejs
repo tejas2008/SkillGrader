@@ -10,7 +10,18 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      table{ 
+      border-collapse:separate; 
+      border-spacing: 30px 10px; 
+      column-gap: 90px;
+      } 
+      th,td{ 
+      width: 300px; 
+      padding: 10px;
+      }
+    </style>
   </head>
   <body>
 		
@@ -46,48 +57,76 @@
       <div id="content" class="p-4 p-md-5">
 
         <div id="content" class="p-4 p-md-5">
-          <%results.forEach(function(result){%>
+          <%var flag;%>
+          <%for(var i=0;results.length>i;i=i+flag){%>
+
           <div class="card">
-              <div class="card-header">
-                Submission
+              <div class="card-header text-white" style="background-color: rgb(63, 60, 60);">
+                Assignment: <%=results[i].assignment_name%>
               </div> 
+              <%flag=0;%>
+              <%results.forEach(function(result2){%>
+                <% if(results[i].assignment_name==result2.assignment_name){%>
               <div class="card-body" >
-                Assignment name: <%=result.assignment_name%> <br>
-                Student id: <%=result.stu_id%> <br>
-                Student name: <%=result.stu_name%><br>
+                <table>
+                  <tr>
+                    <td>
+              
                 
-                 <% if(result.assignment_type == 'video/mp4'){%>
+                 <% if(result2.assignment_type == 'video/mp4'){%>
                     
-                      <video width="250" height="250" controls>
-                          <source src="../public/uploads/<%=result.assignment_desc%>" type="video/mp4">
-                          <source src="../public/uploads/<%=result.assignment_desc%>" type="video/ogg">
+                      <video width="250" height="130" controls>
+                          <source src="../public/uploads/<%=result2.assignment_desc%>" type="video/mp4">
+                          <source src="../public/uploads/<%=result2.assignment_desc%>" type="video/ogg">
                         Your browser does not support the video tag.
                       </video>
                   <%}%>
-                  <% if(result.assignment_type == 'image/png'){%>
-                     <a href="../public/uploads/<%=result.assignment_desc%>">Download </a>
+                  <% if(result2.assignment_type == 'image/png'){%>
+                    <img src="../public/uploads/<%=result2.assignment_desc%>" style="width: 150px; height: 150px;">
+                     <a href="../public/uploads/<%=result2.assignment_desc%>">Download </a>
+
                   <%}%>
-                  <% if(result.assignment_type == 'image/jpeg'){%>
-                    <a href="../public/uploads/<%=result.assignment_desc%>"> Download </a>
+                  <% if(result2.assignment_type == 'image/jpeg'){%>
+                    <img src="../public/uploads/<%=result2.assignment_desc%>" style="width: 150px; height: 150px;"><br>
+                    <a href="../public/uploads/<%=result2.assignment_desc%>"> Download </a>
                    <%}%>
-                  <% if(result.assignment_type == 'text/plain'){%>
-                      <iframe src="../public/uploads/<%=result.assignment_desc%>"></iframe>
+                  <% if(result2.assignment_type == 'text/plain'){%>
+                      <iframe src="../public/uploads/<%=result2.assignment_desc%>"></iframe>
                   <%}%> 
-                 <!-- <p class="card-text">Due Date:<%=result.due_date%></p>
+                 <!-- <p class="card-text">Due Date:<%=result2.due_date%></p>
                   <br>
                   <h4>Submission:</h4>-->
-                  
+                    </td>
+                    <td></td>
+                    <td>
+                      Student id: <%=result2.stu_id%> <br>
+                      Student name: <%=result2.stu_name%><br><br>
                     <form action="/submissions" method="POST" >
-                      <input type = "hidden" name = "assignment_name" value = "<%=result.assignment_name %>" />
-                      <input type = "hidden" name = "stu_id" value = "<%=result.stu_id %>" />
-  
-                      <input type = "text" name = "grade" placeholder="Pending"/>
+                      <input type = "hidden" name = "assignment_name" value = "<%=result2.assignment_name %>" />
+                      <input type = "hidden" name = "stu_id" value = "<%=result2.stu_id %>" />
+                        <select name="grade" placeholder="Pending"  style="width: 2.5cm;">
+                          <option value="" disabled selected hidden>Pending</option>
+                        <option value="A+">A+</option>
+                        <option value="A">A</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B">B</option>
+                        <option value="B-">B-</option>
+                        <option value="C+">C+</option>
+                        <option value="C">C</option>
+                        <option value="C-">C-</option>
+                        <option value="D">D</option>
+                        <option value="F">F</option>
+                      </select>
                       <button type="submit" class="btn btn-info">Grade</button>
                     </form>
-                   
-              </div>
+                    <%flag=flag+1;%>
+                    <%}%> </td></tr>
+                   <%})%>
+                </table>
+            </div>
             </div> <br> <br>
-            <% })%>
+            <% }%>
 
 
       </div>
