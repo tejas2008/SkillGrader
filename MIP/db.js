@@ -710,18 +710,13 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
-<<<<<<< HEAD
-         db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id, course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
-=======
-         db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from 04334yB2tL.assignment_grading  G join 04334yB2tL.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
->>>>>>> c184ce5cdb9bc3a2e16b99ba2f48ba14cf831321
+                  db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from 04334yB2tL.assignment_grading  G join 04334yB2tL.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
             if (!results1){
                msg='Submit assignments  to avail progress'
                res.render('error',{msg:msg,name:req.session.username});
             }
             else{
-               
             db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
                console.log(results2);
                if (!results2){
