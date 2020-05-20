@@ -22,17 +22,25 @@ let storage = multer.diskStorage({
 
 let upload = multer({storage: storage});
 
-var db = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : 'root',
-	database : 'testing'
+let db = mysql.createConnection({
+	host     : 'remotemysql.com',
+	user     : '04334yB2tL',
+	password : 'JkUe8k5aEZ',
+	database : '04334yB2tL'
 });
-
+db.connect(function(err) {
+   if (err) {
+     return console.error('error: ' + err.message);
+   }
+ 
+   console.log('Connected to the MySQL server.');
+ })
 
 app.get('/',(request, response) =>{
    response.sendFile(path.join(__dirname + '/test.html'));
 });
+
+
 
 app.get('/1',(request, response) =>{
    response.render('photography');
@@ -71,18 +79,6 @@ app.post('/',function(req,res){
    var role = req.body.role;
    
 if(username1){
-   
-   db.query("SELECT * FROM login_student",(err,results1,fields)=>{
-   var c = 0;
-      for(i=0;i<results1.length;i++){
-         if(username1 == results1[i].username){
-            js_alert.alert("username already exists in student");
-            c = 1;
-            break;
-         }
-      }
-      if(c==0){
-         
             bcrypt.hash(password1, saltRounds, function(err, hash) {
                var student_data = {
                   "name" : stu_name,
@@ -95,24 +91,18 @@ if(username1){
             });   
             res.redirect('/')
             console.log("student2 added");
-         }); 
-         }
-         else{
-            res.send("unique nahi ahe");
-            console.log("username unique nahi ahe")
-         }
+         });
       
-      
-   });   
-
    
+      }
 
-   }
+
    else if(username2){
 //teacher
-      db.query("SELECT username FROM login_teacher",(err , results1, fields)=>{
+      try{
+          db.query("SELECT username FROM login_teacher",(err , results1, fields)=>{
          //console.log(results1);
-         
+        
          for(i=0;i<results1.length;i++){
             //console.log(results1[i].username);
             
@@ -162,7 +152,7 @@ if(username1){
       if(username2==results1[i].username){
          console.log("pass1");
          db.query("SELECT password FROM login_student",(err , results2, fields)=>{
-            
+            if (err) throw err;
             for(j=0;j<results2.length;j++){
                //console.log(results2[j].password);
       bcrypt.compare(password2, results2[j].password, function(err, result) {
@@ -172,7 +162,6 @@ if(username1){
                //console.log("success login");
                req.session.stu_login = true;
                req.session.username = username2;
-               //res.redirect('/home');
                if(req.session.stu_login = true){
                   console.log(2);
                   res.redirect('/stu_course');
@@ -183,26 +172,23 @@ if(username1){
    }
 });
 }
-else{
-console.log("wrong");
+   else{
+      console.log("wrong");
 
 }
 }
 });
 }
-
+}
+catch{
+   res.status(500,404).redirect("/")
+}
    }
-   else if(username3){
-      db.query("SELECT * FROM login_teacher",(err,results2,fields)=>{
-         var d=0;
-         for(i=0;i<results2.length;i++){
-            if(username1 == results2[i].username){
-               js_alert.alert("username already exists in teacher");
-               d=1;
-               break;
-            }
-         }
-         if(d==0){
+
+
+else if(username3){
+
+      
             bcrypt.hash(password3, saltRounds, function(err, hash) {
                var teacher_data = {
                   "username" : username3,
@@ -211,25 +197,15 @@ console.log("wrong");
                   "qualification" : quali
                };
             db.query('INSERT INTO login_teacher SET ?',teacher_data,(err,results,fields)=>{
+               console.log(4565)
                if(err) throw err;
             });
+            console.log(123)
             res.redirect('/')
             console.log("teacher added")
          });
-         }
-         else{
-            res.send("unique nahi ahe");
-            console.log("username unique nahi ahe")
-         }
-            
-         
-      });
-
-      
-   }
-
-});
-
+      }
+   });
 
 app.get('/home',(req,res)=>{
    res.sendFile(path.join(__dirname + '/index.html'));
@@ -262,13 +238,13 @@ app.get('/mycourses',(req,res)=>{
             db.query('select * from courses where course_teacher=? ',req.session.username,(err,results1,fields)=>{
                var course_id=results1[0].course_id
  
-               db.query('select count(*) as C from testing.assignments as A join testing.courses as C where A.course_id=C.course_id and course_teacher=?',req.session.username,(err,results2,fields)=>{
+               db.query('select count(*) as C from 04334yB2tL.assignments as A join 04334yB2tL.courses as C where A.course_id=C.course_id and course_teacher=?',req.session.username,(err,results2,fields)=>{
                   var ass_count=results2[0].C;
                
-               db.query('select count(*) as C from testing.my_subscribed_courses where my_course_id=?',course_id,(err,results3,fields)=>{
+               db.query('select count(*) as C from 04334yB2tL.my_subscribed_courses where my_course_id=?',course_id,(err,results3,fields)=>{
                   var stu_count=results3[0].C;
                
-               db.query("select assignment_id, assignment_name, DATE_FORMAT(due_date,'%M %D, %Y') as date from testing.assignments where course_id=?",course_id,(err,results4,fields)=>{
+               db.query("select assignment_id, assignment_name, DATE_FORMAT(due_date,'%M %D, %Y') as date from 04334yB2tL.assignments where course_id=?",course_id,(err,results4,fields)=>{
  
             
             res.render('mycourse',{name:req.session.username,countA:ass_count,countS:stu_count,result1:results1,result2:results4});
@@ -551,6 +527,8 @@ app.post('/unsubscribed',(req,res)=>{
 // assignment uploading module
 app.get('/upload',(req,res)=>{
    if(req.session.tea_login){
+      console.log(12);
+      
       res.render('assignment_upload',{name:req.session.username});
    }
 });
@@ -580,7 +558,7 @@ app.post('/upload',upload.single('myfile'), function (req, res) {
 //asignment visible to student 
 
 app.get('/assignment',(req,res)=>{
-      db.query('select id from login_student where username = ?',req.session.username,(err,results,fields)=>{
+      db.query('select id from login_student where username = ?',req.session.username,(err,results,fields)=>{ 
       var studentid = results[0].id;
       db.query('select distinct assignments.assignment_id,assignments.assignment_name,assignments.assignment_desc,assignments.due_date,assignments.assignment_type from assignments inner join my_subscribed_courses on assignments.course_id = my_subscribed_courses.my_course_id where my_subscribed_courses.my_course_id in (select distinct my_course_id from my_subscribed_courses where my_id = ?)',studentid,(err,results1,fields)=>{
          console.log(results1);
@@ -732,13 +710,33 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
+<<<<<<< HEAD
          db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id, course_name, sum(XPs) as total from testing.assignment_grading  G join testing.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
+=======
+         db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from 04334yB2tL.assignment_grading  G join 04334yB2tL.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
+>>>>>>> c184ce5cdb9bc3a2e16b99ba2f48ba14cf831321
             console.log(results1);
-         db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
-            console.log(results2);
-            console.log(typeof(results2));
-            res.render('progress',{name:req.session.username,results1:results1, results2:results2});
-         });
+            if (!results1){
+               msg='Submit assignments  to avail progress'
+               res.render('error',{msg:msg,name:req.session.username});
+            }
+            else{
+               
+            db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
+               console.log(results2);
+               if (!results2){
+                  msg='Submit assignments to avail progress'
+                  res.render('error',{msg:msg,name:req.session.username});
+               }
+               else{
+               
+               console.log(typeof(results2));
+               res.render('progress',{name:req.session.username,results1:results1, results2:results2});
+               }
+               
+            });
+            }
+
       });
    });
 }
