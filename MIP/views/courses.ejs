@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Sidebar 09</title>
+  	<title>SkillGrader</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -38,7 +38,7 @@
             <a href="#"> Course info </a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+            <a href="/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
         </ul>
 
@@ -75,15 +75,29 @@
             cursor: pointer;">
             <br>
             <br>
-            <input type="text" placeholder="Domain" name="course_domain" style="background:transparent;
+            <!-- <input type="text" placeholder="Domain" name="course_domain" style="background:transparent;
             border-color: blue;
             border-radius: 7px;
             width: 80%;
             padding:15px;
             font-size: 14px;
-            cursor: pointer;">
-            <br>
-            <br>
+            cursor: pointer;"> -->
+            <select name="course_domain" style="background:transparent;
+            border-color: blue;
+            border-radius: 7px;
+            width: 80%;
+            padding:15px;
+            font-size: 14px;
+            cursor: pointer;" required>
+              <option value="" disabled selected>Select your option</option>
+              <option value="photography">photography</option>
+              <option value="film making">film making</option>
+              <option value="essayt writing">essay writing</option>
+              <option value="sketching">sketching</option>
+              <option value="foreign lamguage">foreign language</option>
+            </select>
+            <br><br>  
+
             <input type="submit" name="add" id="add-course" style="background: #4CAF50;
             border: none;
             border-radius: 7px;

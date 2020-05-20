@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Photography</title>
+  	<title>SkillGrader</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
@@ -121,10 +121,10 @@ background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+
                       <b>Submission:</b>
                       <br>
                     <form action="/assignment" method="POST" enctype="multipart/form-data">
-                      <input class="form-control" type="file" name="submission_file" accept=""/>
+                      <input class="form-control" type="file" name="submission_file" accept=""/ required>
                       <hr>
-                      <input type = "hidden" name = "assignment_id" value = "<%=result.assignment_id %>" />
-                      <input type = "hidden" name = "assignment_name" value = "<%=result.assignment_name %>" />
+                      <input type = "hidden" name = "assignment_id" value = "<%=result.assignment_id %>" / required>
+                      <input type = "hidden" name = "assignment_name" value = "<%=result.assignment_name %>" / required >
                       <button class="btn btn-primary btn-info btn-lg" >Submit</button>
                     </form>
                     </div>

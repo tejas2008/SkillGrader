@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Skillgrader</title>
     <style>
       body{
   background-color: white;
@@ -133,10 +133,10 @@ form a{
         <div id='London' class="tabcontent">
           <form class="register-form" id='abc' method="POST">
             <p><b>Student Signup</b></p>
-            <input type="text" placeholder="Name" name="stuname">
-            <input type="email" placeholder="Email" name="stuemail">
-            <input type="text" placeholder="Username" name="username1">
-            <input type="password" placeholder="Password" name="password1">
+            <input type="text" placeholder="Name" name="stuname" required>
+            <input type="email" placeholder="Email" name="stuemail" required>
+            <input type="text" placeholder="Username" name="username1" required>
+            <input type="password" placeholder="Password" name="password1" required>
             
             <input type="submit" value="Submit">
             <p class="message">Already Registered? <a href="#">Login</a></p>
@@ -146,8 +146,8 @@ form a{
           <form class="register-form" class="login-form" method="POST">
             <p><b>Login</b></p>
             
-            <input type="text" placeholder="Username" name="username2">
-            <input type="password" placeholder="Password" name="password2">
+            <input type="text" placeholder="Username" name="username2" required>
+            <input type="password" placeholder="Password" name="password2" required>
             <input type="submit" value="Submit">
             <p class="message">Haven't registered <a href="#">SignUp</a></p>
           </form>
@@ -156,12 +156,12 @@ form a{
           <form class="login-form" id="pqr" method="POST">
             <p><b>Teacher SignUp</b></p>
             
-            <input type="text" placeholder="Name" name="teaname">
-            <input type="email" placeholder="Email" name="teaemail">
-            <input type="text" placeholder="Username" name="username3">
-            <input type="password" placeholder="Password" name="password3">
-            <input type="text" placeholder="Domain" name="domain">
-            <input type="text" placeholder="Qualifiaction" name="quali">
+            <input type="text" placeholder="Name" name="teaname" required>
+            <input type="email" placeholder="Email" name="teaemail" required>
+            <input type="text" placeholder="Username" name="username3" required>
+            <input type="password" placeholder="Password" name="password3" required>
+            <input type="text" placeholder="Domain" name="domain" required>
+            <input type="text" placeholder="Qualifiaction" name="quali" required>
             <input type="submit" value="Submit">
             <p class="message">Haven't Registered? <a href="#">Register</a></p>
           </form>

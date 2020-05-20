@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Photography</title>
+  	<title>SkillGrader</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
@@ -49,7 +49,7 @@
                 <div id="signupbox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-2 col-md-8 ">                                     
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <div class="panel-title">Upload Image</div>
+                            <div class="panel-title">Upload Adsignment</div>
                         </div> 
                         <div class="panel-body" >
                             <form class="form-horizontal" role="form" method="post" action="/upload" enctype="multipart/form-data">
@@ -57,9 +57,9 @@
                                  <div class="form-group">
                 
                                     <div class="col-sm-9">
-                                        <input type="text" name="assignmentname" placeholder="Assignment Name" style="width: 100%;"><br><br>
-                                        <input type="text" name="duedate" placeholder="format:Month<space>day<space>Year,hrs:mins:seconds" style="width: 100%;""><br><br>
-                                        <input class="form-control" type="file" name="myfile" accept=""/><br>
+                                        <input type="text" name="assignmentname" placeholder="Assignment Name" style="width: 100%;" required><br><br>
+                                        <input type="text" name="duedate" placeholder="format:Month<space>day<space>Year,hrs:mins:seconds" style="width: 100%;" required><br><br>
+                                        <input class="form-control" type="file" name="myfile" accept=""/ required><br>
                                         <button id="btn-signup" type="submit" class="btn btn-info"> Upload</button>
 
                                     </div>

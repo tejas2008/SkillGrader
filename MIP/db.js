@@ -79,18 +79,6 @@ app.post('/',function(req,res){
    var role = req.body.role;
    
 if(username1){
-   
-   db.query("SELECT * FROM login_student",(err,results1,fields)=>{
-   var c = 0;
-      for(i=0;i<results1.length;i++){
-         if(username1 == results1[i].username){
-            js_alert.alert("username already exists in student");
-            c = 1;
-            break;
-         }
-      }
-      if(c==0){
-         
             bcrypt.hash(password1, saltRounds, function(err, hash) {
                var student_data = {
                   "name" : stu_name,
@@ -103,22 +91,16 @@ if(username1){
             });   
             res.redirect('/')
             console.log("student2 added");
-         }); 
-         }
-         else{
-            res.send("unique nahi ahe");
-            console.log("username unique nahi ahe")
-         }
+         });
       
-      
-   });   
-
    
+      }
 
-   }
+
    else if(username2){
 //teacher
-      db.query("SELECT username FROM login_teacher",(err , results1, fields)=>{
+      try{
+          db.query("SELECT username FROM login_teacher",(err , results1, fields)=>{
          //console.log(results1);
         
          for(i=0;i<results1.length;i++){
@@ -180,7 +162,6 @@ if(username1){
                //console.log("success login");
                req.session.stu_login = true;
                req.session.username = username2;
-               //res.redirect('/home');
                if(req.session.stu_login = true){
                   console.log(2);
                   res.redirect('/stu_course');
@@ -191,16 +172,21 @@ if(username1){
    }
 });
 }
-else{
-console.log("wrong");
+   else{
+      console.log("wrong");
 
 }
 }
 });
 }
-
+}
+catch{
+   res.status(500,404).redirect("/")
+}
    }
-   else if(username3){
+
+
+else if(username3){
 
       
             bcrypt.hash(password3, saltRounds, function(err, hash) {
@@ -572,7 +558,7 @@ app.post('/upload',upload.single('myfile'), function (req, res) {
 //asignment visible to student 
 
 app.get('/assignment',(req,res)=>{
-      db.query('select id from login_student where username = ?',req.session.username,(err,results,fields)=>{
+      db.query('select id from login_student where username = ?',req.session.username,(err,results,fields)=>{ 
       var studentid = results[0].id;
       db.query('select distinct assignments.assignment_id,assignments.assignment_name,assignments.assignment_desc,assignments.due_date,assignments.assignment_type from assignments inner join my_subscribed_courses on assignments.course_id = my_subscribed_courses.my_course_id where my_subscribed_courses.my_course_id in (select distinct my_course_id from my_subscribed_courses where my_id = ?)',studentid,(err,results1,fields)=>{
          console.log(results1);
