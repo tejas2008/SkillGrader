@@ -710,7 +710,7 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
-                  db.query('Select CONCAT("id",CONVERT(G.course_id, CHAR)) as course_id,course_name, sum(XPs) as total from 04334yB2tL.assignment_grading  G join 04334yB2tL.courses C where C.course_id=G.course_id and stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
+                  db.query(' Select course_id, CONCAT("id",G.course_id) as course_id1,CONCAT("id1",G.course_id) as course_id2, sum(XPs) as total from assignment_grading G where stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
             if (!results1){
                msg='Submit assignments  to avail progress'
@@ -724,9 +724,17 @@ app.get('/progress',(req,res)=>{
                   res.render('error',{msg:msg,name:req.session.username});
                }
                else{
-               
-               console.log(typeof(results2));
-               res.render('progress',{name:req.session.username,results1:results1, results2:results2});
+        
+            var r=[];   
+               for(var i=0;i<results1.length;i++)
+               {
+                  db.query('select course_name from courses where course_id=?',results1[i].course_id,(err,results3,fields)=>{
+                     r.push(results3[0].course_name);
+                  });
+               }
+            
+               console.log(r);
+               res.render('progress',{name:req.session.username,result1:results1, results2:results2, r:r});
                }
                
             });
@@ -736,7 +744,6 @@ app.get('/progress',(req,res)=>{
    });
 }
 });
-
 app.post('/progress', (req,res)=>{
    
    var certificate_data = {
