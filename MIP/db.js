@@ -22,19 +22,13 @@ let storage = multer.diskStorage({
 
 let upload = multer({storage: storage});
 
-let db = mysql.createConnection({
+let db = mysql.createPool({
 	host     : 'remotemysql.com',
 	user     : '04334yB2tL',
 	password : 'JkUe8k5aEZ',
 	database : '04334yB2tL'
 });
-db.connect(function(err) {
-   if (err) {
-     return console.error('error: ' + err.message);
-   }
- 
-   console.log('Connected to the MySQL server.');
- })
+
 
 app.get('/',(request, response) =>{
    response.sendFile(path.join(__dirname + '/test.html'));
