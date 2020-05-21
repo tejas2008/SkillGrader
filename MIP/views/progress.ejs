@@ -80,39 +80,37 @@
         <div id="content" class="p-4 p-md-5">
           <div class="card-header text-center">PROGRESS REPORT</div>
                 <br>
-           
-           <div class="card">
-              <div class="card-body" >
-                <%for(var i=0;result1.length>i;i++){%>
+ 
+                <%results1.forEach(function(result1){%>
                   <%var flag=0%>
                   <%var sum=0%>
                         
                             <div id="accordion">
                               <div class="card">
-                                <div class="card-header text-center" id="<%= result1[i].course_id1 %>">
+                                <div class="card-header text-center" id="a<%= result1.course_id %>">
                                   <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#<%= result1[i].course_id2 %>" aria-expanded="true" aria-controls="<%= result1[i].course_id2 %>" style="font-size: medium;">
-                                      <%= r[i] %>
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#b<%= result1.course_id %>" aria-expanded="true" aria-controls="b<%= result1.course_id %>" style="font-size: medium;">
+                                      <%= result1.course_name %>
                                     </button>
                                   </h5>
                                 </div>
                             
-                                <div id="<%= result1[i].course_id2 %>" class="collapse show" aria-labelledby="<%= result1[i].course_id1 %>" data-parent="#accordion">
+                                <div id="b<%= result1.course_id %>" class="collapse show" aria-labelledby="a<%= result1.course_id %>" data-parent="#accordion">
                                   <div class="card-body">
                                     <table>
                                         <tr>
                                            <th>Assignment</th><th>Grade</th><th>XP's</th><th>Total XPs</th>
                                         </tr>
                                         <%results2.forEach(function(result2){%>
-                                          <% if(result2.course_id == result1[i].course_id1){%>
+                                          <% if(result2.course_id == result1.course_id){%>
                                             <%sum=sum+result2.XPs%>
                                       <tr>
                                     <td><%= result2.assignment_name %></td>
                                     <td><%= result2.grade %></td>
                                     <td><%= result2.XPs %></td>
-                                    <% if(sum==result1[i].total){%>
-                                      <td><%= result1[i].total %></td>
-                                      <%if(result1[i].total/40>=0.75){%>
+                                    <% if(sum==result1.total){%>
+                                      <td><%= result1.total %></td>
+                                      <%if(result1.total/40>=0.75){%>
                           
                                         <td><form action="/progress" method="POST" >
   
@@ -137,7 +135,7 @@
                      
                    </div>
             </div> <br> 
-            <% } %>
+            <% }) %>
 
       </div>
 

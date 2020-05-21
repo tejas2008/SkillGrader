@@ -710,31 +710,21 @@ app.get('/progress',(req,res)=>{
       db.query("Select id from login_student where name = ?",req.session.username,(err,results,fields)=>{
          var stu_id = results[0].id;
          console.log(stu_id);
-                  db.query(' Select course_id, CONCAT("id",G.course_id) as course_id1,CONCAT("id1",G.course_id) as course_id2, sum(XPs) as total from assignment_grading G where stu_id = ? group by course_id order by course_id',stu_id,(err,results1,fields)=>{
+                  db.query('Select G.course_id, course_name, sum(XPs) as total from assignment_grading G join courses C where G.course_id= C.course_id and stu_id=? group by course_id',stu_id,(err,results1,fields)=>{
             console.log(results1);
             if (!results1){
                msg='Submit assignments  to avail progress'
                res.render('error',{msg:msg,name:req.session.username});
             }
             else{
-            db.query('select CONCAT("id",G.course_id) as course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
+            db.query('select G.course_id,course_name, DATE_FORMAT(date,"%M %D, %Y") as date, assignment_name, grade,XPs from assignment_grading G join courses C where G.course_id=C.course_id and stu_id=? ',stu_id,(err,results2,fields)=>{
                console.log(results2);
                if (!results2){
                   msg='Submit assignments to avail progress'
                   res.render('error',{msg:msg,name:req.session.username});
                }
                else{
-        
-            var r=[];   
-               for(var i=0;i<results1.length;i++)
-               {
-                  db.query('select course_name from courses where course_id=?',results1[i].course_id,(err,results3,fields)=>{
-                     r.push(results3[0].course_name);
-                  });
-               }
-            
-               console.log(r);
-               res.render('progress',{name:req.session.username,result1:results1, results2:results2, r:r});
+               res.render('progress',{name:req.session.username,results1:results1, results2:results2});
                }
                
             });
