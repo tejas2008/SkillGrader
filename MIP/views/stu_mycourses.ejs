@@ -55,7 +55,7 @@
            
             <div class="card-body">
               <h5 class="card-title text-white"><%=result[0].course_name%></h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <p class="card-text"><%=result[0].course_info%></p>
               <!-- <a href="#" class="btn btn-light " data-toggle="modal" data-target="#<%=result[0].course_teacher %>">Go to course</a> -->
               <form action="/unsubscribed" method="POST">
                 <input type = "hidden" name = "unsubscribed_course_name" value = "<%=result[0].course_name %>" />
