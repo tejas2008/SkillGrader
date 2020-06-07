@@ -26,13 +26,13 @@
 	  		</div>
         <ul class="list-unstyled components mb-5">
           <li>
-            <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+            <a href="/stu_course"><span class="fa fa-home mr-3"></span> Home</a>
           </li>
           <li class="active">
-            <a href="#"><span class="fa fa-book mr-3"></span> Courses</a>
+            <a href="/user/mycourses"><span class="fa fa-book mr-3"></span>My Courses</a>
           </li>
           <li>
-            <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+            <a href="/assignment"><span class="fa fa-upload mr-3"></span> Assignments </a>
           </li>
           <li>
             <a href="/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
@@ -51,7 +51,7 @@
          
           <div class="card-body">
             <h5 class="card-title"><%=result.course_name%></h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text"><%=result.course_info%></p>
             <a href="#" class="btn btn-light " data-toggle="modal" data-target="#<%=result.course_teacher %>">Subscribe</a>
           </div>
         </div>
