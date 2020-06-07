@@ -538,7 +538,7 @@ app.post('/upload',upload.single('myfile'), function (req, res) {
          "assignment_name" : req.body.assignmentname,
          "assignment_desc" : req.file.filename,
          "course_id" : courseid,
-         "due_date" : due_date,
+         "due_date" : '2020-06-01 23:59:59.00',
          "assignment_type" : req.file.mimetype
          };
          db.query('INSERT INTO assignments SET ?',File_data,(err,results,fields)=>{
