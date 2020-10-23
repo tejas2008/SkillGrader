@@ -126,8 +126,9 @@ if(username1){
       });
    }
    else{
-      console.log("wrong");
-      
+      // console.log("wrong");
+      alert("Incorrect Username and Password");
+      res.redirect('/')
    }
 }
 });
@@ -168,6 +169,8 @@ if(username1){
 }
    else{
       console.log("wrong");
+      alert("Incorrect Username and Password");
+      res.redirect('/')
 
 }
 }
