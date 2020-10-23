@@ -57,6 +57,12 @@
       <div id="content" class="p-4 p-md-5">
 
         <div id="content" class="p-4 p-md-5">
+          <% if(results.length==0){%>
+            <div class="alert alert-warning" role="alert">
+              No Assignments to Grade!
+            </div>
+            <%}%> 
+
           <%var flag;%>
           <%for(var i=0;results.length>i;i=i+flag){%>
 

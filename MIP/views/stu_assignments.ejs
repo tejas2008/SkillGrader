@@ -85,6 +85,11 @@
        
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5">
+          <% if(results.length == 0){%>
+            <div class="alert alert-warning" role="alert">
+              No Assignments Due!!
+            </div>
+            <%}%>
             <%results.forEach(function(result){%>
             <div class="card">
                 <div class="card-header">
