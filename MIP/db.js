@@ -127,8 +127,8 @@ if(username1){
    }
    else{
       // console.log("wrong");
-      alert("Incorrect Username and Password");
-      res.redirect('/')
+//       alert("Incorrect Username and Password");
+//       res.redirect('/')
    }
 }
 });
@@ -168,9 +168,9 @@ if(username1){
 });
 }
    else{
-      console.log("wrong");
-      alert("Incorrect Username and Password");
-      res.redirect('/')
+//       console.log("wrong");
+//       alert("Incorrect Username and Password");
+//       res.redirect('/')
 
 }
 }
@@ -467,7 +467,7 @@ app.get('/foreign',(request, response) =>{
          //  
          for(var i=0;i<results.length;i++)
          {
-            if(results[i].domain == 'foreign language')
+            if(results[i].domain == 'foreign lamguage')
             {
                list.push(results[i]);
             }
